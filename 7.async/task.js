@@ -8,27 +8,25 @@ class AlarmClock {
         if (id == undefined) {
             throw new Error('id будильника не передан');
         }
-        
-        for (const i in this.alarmCollection) {
-            if (this.alarmCollection.id[i] === id) {
+
+        this.alarmCollection.some(function(item) {
+            if (item.id == id) {
                 console.error('id уже существует');
                 return;
             }
-        }
-
-        this.alarmCollection = [
-            {id, time, callback}
-        ]
+        })
+        
+        this.alarmCollection.push({id, time, callback});
     }
 
     removeClock(id) {
-        const idCompare = this.alarmCollection.filter(item => item.id == id);
-        if (idCompare === false) {
-            return idCompare;
-        } else {
-            return false;
+        const alarmCollectionLength = this.alarmCollection.length;
+        alarmCollectionLength.filter(id => id == this.alarmCollection.id) 
+            if (id < this.alarmCollection.id) {
+                return;
+            }
         }
-    }
+    
 
     getCurrentFormattedTime() {
         const currentDate = new Date();
@@ -38,38 +36,36 @@ class AlarmClock {
     }
 
     start() {
-        function checkClock(call) {
-            if (getCurrentDate() === call.time) {
-                call.callback();
+        function checkClock(clock) {
+            if (this.getCurrentFormattedTime() == clock.time) {
+                clock.callback();
             }
         }
         
-        if (this.alarmCollection.timerId == undefined) {
-            function setInterval() {this.alarmCollection.forEach(item => {
-                item.checkClock;
-            });
-            }
-            setInterval = this.alarmCollection.timerId;
+        if (this.timerId == null) {
+            this.timerId = setInterval(() => this.alarmCollection.forEach(function() {
+                checkClock(clock, 1000);
+            }))
         }
     }
 
     stop() {
-        if (this.alarmCollection.timerId == undefined) {
+        if (this.alarmCollection.timerId == null) {
             return;
         } else {
-            function clearInterval() {
-                setInterval = null;
-                delete this.AlarmClock.timerId;
-            }
+            this.timerId = clearInterval();
+            delete this.timerId;
         }
     }
 
     printAlarms() {
-        this.alarmCollection.forEach(item => item.id && item.time);
+        this.alarmCollection.forEach(item => item.id, item.time);
     }
 
     clearAlarms() {
         this.stop();
-        delete this.alarmCollection;
+        this.alarmCollection = [];
     }
 }
+
+console.log(this.alarmCollection)
